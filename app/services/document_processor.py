@@ -4,11 +4,10 @@ from config import settings
 
 def convert_html_to_markdown(base_html_docs_path: str, output_base_path: str):
     space_keys = [
-        "EMS", "OMS", "OPA", "PMS", "POS", "WSS", "Hstays", "WIKI",
-        "CMSupE", "CMSup", "hpn", "pneng", "pnsup", "CRS", "CST",
-        "CM", "CME", "HE", "HEYC", "ags", "API", "PDOC", "PDP", "MAN"
+        "ags", "API", "CM", "CME", "CMSup", "CMSupE", "CRS", "CST",
+        "EMS", "HE", "HEYC", "Hstays", "hpn", "MAN", "OMS", "OPA",
+        "PDP", "PDOC", "PMS", "pneng", "pnsup", "POS", "WIKI", "WSS"
     ]
-
 
     for past in space_keys:
         html_folder = os.path.join(base_html_docs_path, past)
