@@ -4,6 +4,8 @@ from fastapi import FastAPI, Depends
 from config import settings
 from services.download_html import download_main
 from services.document_processor import convert_html_to_markdown
+from utils.model_loader import download_model
+
 
 
 async def startup_event():
@@ -14,7 +16,9 @@ async def startup_event():
     print(f"Checking for HTML to Markdown conversion...")
     convert_html_to_markdown(base_html_docs_path=settings.HTML_DOCS_PATH, output_base_path=settings.MARKDOWN_DOCS_PATH)
 
-
+    print(f"Ensuring LLM model ({settings.LLM_MODEL_NAME}) is available at {settings.MODEL_SAVE_PATH}...")
+    download_model(model_name=settings.LLM_MODEL_NAME, save_path=settings.MODEL_SAVE_PATH)
+    
 app = FastAPI(
     title=settings.API_TITLE,
     description="API para interação com o modelo Qwen-2.5, reestruturado em MVC e otimizado.",
