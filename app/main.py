@@ -4,9 +4,8 @@ from fastapi import FastAPI, Depends
 from config import settings
 from services.download_html import download_main
 from services.document_processor import convert_html_to_markdown
+from services.vector_service import build_or_load_vector_store
 from utils.model_loader import download_model
-
-
 
 async def startup_event():
     print("Starting up the application...")
@@ -15,6 +14,13 @@ async def startup_event():
 
     print(f"Checking for HTML to Markdown conversion...")
     convert_html_to_markdown(base_html_docs_path=settings.HTML_DOCS_PATH, output_base_path=settings.MARKDOWN_DOCS_PATH)
+
+    print(f"Building/Loading vector store from {settings.MARKDOWN_DOCS_PATH} to {settings.VECTOR_STORE_PATH}...")
+    vector_index = build_or_load_vector_store(
+        docs_base_dir=settings.MARKDOWN_DOCS_PATH,
+        vector_store_persist_dir=settings.VECTOR_STORE_PATH,
+        embedding_model_name=settings.EMBEDDING_MODEL_NAME
+    )
 
     print(f"Ensuring LLM model ({settings.LLM_MODEL_NAME}) is available at {settings.MODEL_SAVE_PATH}...")
     download_model(model_name=settings.LLM_MODEL_NAME, save_path=settings.MODEL_SAVE_PATH)
