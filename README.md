@@ -131,6 +131,3 @@ No projeto original, os documentos markdown estavam em `/home/ubuntu/chatbot_pro
 *   **Processamento de Documentos (`docling`):** A biblioteca `docling` mencionada no código original para converter HTML para Markdown não é uma biblioteca Python padrão. Se for uma ferramenta customizada ou interna, você precisará garantir que ela esteja disponível e funcional no ambiente para que `app/services/document_processor.py` funcione como esperado. A versão atual do `document_processor.py` inclui um mock dessa funcionalidade se a biblioteca não estiver presente. Se os seus documentos já estão em Markdown, você pode ignorar esta parte, garantindo que `MARKDOWN_DOCS_PATH` aponte para eles.
 *   **Recursos:** Modelos de linguagem grandes como o Qwen2.5-1.5B consomem bastante memória RAM, mesmo em CPU. Se estiver usando GPU, certifique-se de ter VRAM suficiente.
 *   **Primeira Execução:** A primeira execução pode ser mais demorada devido ao download do modelo e à construção do índice vetorial.
-
-Esperamos que esta nova estrutura e as otimizações melhorem significativamente a funcionalidade e o desempenho do seu chatbot!
-
