@@ -9,18 +9,7 @@ from llama_index.core import (
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
 def build_or_load_vector_store(docs_base_dir: str, vector_store_persist_dir: str, embedding_model_name: str) -> VectorStoreIndex:
-    """
-    Builds a new vector store from documents in docs_base_dir or loads an existing one 
-    from vector_store_persist_dir.
 
-    Args:
-        docs_base_dir (str): The base directory containing subfolders (space_keys) of markdown documents.
-        vector_store_persist_dir (str): The directory to save or load the vector store.
-        embedding_model_name (str): The name of the HuggingFace embedding model to use.
-
-    Returns:
-        VectorStoreIndex: The loaded or newly created vector store index.
-    """
     print(f"Attempting to build/load vector store. Docs: {docs_base_dir}, Store: {vector_store_persist_dir}")
 
     embed_model = HuggingFaceEmbedding(model_name=embedding_model_name)
@@ -40,9 +29,9 @@ def build_or_load_vector_store(docs_base_dir: str, vector_store_persist_dir: str
 
     print(f"No valid existing vector store found or error loading. Building new one from: {docs_base_dir}")
     space_keys = [
-        "EMS", "OMS", "OPA", "PMS", "POS", "WSS", "Hstays", "WIKI",
-        "CMSupE", "CMSup", "hpn", "pneng", "pnsup", "CRS", "CST",
-        "CM", "CME", "HE", "HEYC", "ags", "API", "PDOC", "PDP", "MAN"
+        "ags", "API", "CM", "CME", "CMSup", "CMSupE", "CRS", "CST",
+        "EMS", "HE", "HEYC", "Hstays", "hpn", "MAN", "OMS", "OPA",
+        "PDP", "PDOC", "PMS", "pneng", "pnsup", "POS", "WIKI", "WSS"
     ]
 
     all_documents = []
