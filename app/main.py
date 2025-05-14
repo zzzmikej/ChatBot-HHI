@@ -6,6 +6,9 @@ from services.download_html import download_main
 from services.document_processor import convert_html_to_markdown
 from services.vector_service import build_or_load_vector_store
 from utils.model_loader import download_model
+from utils.dependencies import get_chatbot_instance, init_dependencies
+from controllers.chatbot_controller import router as chatbot_router
+
 
 async def startup_event():
     print("Starting up the application...")
@@ -25,6 +28,10 @@ async def startup_event():
     print(f"Ensuring LLM model ({settings.LLM_MODEL_NAME}) is available at {settings.MODEL_SAVE_PATH}...")
     download_model(model_name=settings.LLM_MODEL_NAME, save_path=settings.MODEL_SAVE_PATH)
     
+    print("Initializing application dependencies (ChatBot, QueryEngine)...")
+    init_dependencies(vector_index=vector_index, app_settings=settings)
+    print("Application startup complete.")
+
 app = FastAPI(
     title=settings.API_TITLE,
     description="API para interação com o modelo Qwen-2.5, reestruturado em MVC e otimizado.",
@@ -34,7 +41,7 @@ app = FastAPI(
 
 app.add_event_handler("startup", startup_event)
 
-# app.include_router(chatbot_router, prefix="/api/v1", tags=["Chatbot"])
+app.include_router(chatbot_router, prefix="/api/v1", tags=["Chatbot"])
 
 @app.get("/health", tags=["Health"])
 async def health_check():

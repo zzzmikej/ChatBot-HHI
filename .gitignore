@@ -3,7 +3,7 @@
 .idea
 .venv
 confluence_docs
-models
+modelo
 vectorstore
 __pycache__
 *.pyc
