@@ -1,0 +1,32 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+pydantic-settings
+fetcher
+
+# For LLM and embeddings
+transformers
+torch
+sentence-transformers
+
+# For LlamaIndex
+llama-index
+llama-index-embeddings-huggingface
+llama-index-llms-huggingface # If a LlamaIndex HuggingFaceLLM is used, currently None
+
+# For document processing (if docling is a real library)
+docling # Add if it's a pip-installable library, otherwise it's custom
+
+# Original dependencies (review if all are still needed)
+requests
+beautifulsoup4 # If HTML processing is still done by the app, otherwise for doc_reader only
+sqlite3 # This is a built-in Python module, no need to list
+pandas # If used for data manipulation, not obviously used in current chatbot logic
+numpy # Often a dependency of torch or pandas, good to keep if unsure
+
+# For potential optimizations (add if implemented)
+bitsandbytes # For 8-bit quantization
+auto-gptq # For GPTQ quantization
+optimum # For ONNX and other optimizations
+cachetools # For caching
