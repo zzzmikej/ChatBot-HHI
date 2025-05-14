@@ -4,10 +4,10 @@ Este projeto implementa um chatbot utilizando FastAPI, modelos de linguagem da H
 
 ## Estrutura do Projeto MVC
 
-O projeto está organizado da seguinte forma dentro do diretório `chatbot_project_mvc/`:
+O projeto está organizado da seguinte forma dentro do diretório `ChatBot-HHI/`:
 
 ```
-chatbot_project_mvc/
+ChatBot-HHI/
 ├── app/                     # Contém o código principal da aplicação
 │   ├── controllers/         # Controladores FastAPI (endpoints da API)
 │   │   └── chatbot_controller.py
@@ -42,7 +42,7 @@ No projeto original, os documentos markdown estavam em `/home/ubuntu/chatbot_pro
 ## Configuração
 
 1.  **Variáveis de Ambiente (Opcional mas Recomendado):**
-    Crie um arquivo `.env` na raiz do diretório `chatbot_project_mvc/` (ao lado de `requirements.txt`) baseado no `.env.example` (que você precisará criar ou que eu posso fornecer um exemplo abaixo). Este arquivo permite sobrescrever as configurações padrão definidas em `app/config.py`.
+    Crie um arquivo `.env` na raiz do diretório `ChatBot-HHI/` (ao lado de `requirements.txt`) baseado no `.env.example` (que você precisará criar ou que eu posso fornecer um exemplo abaixo). Este arquivo permite sobrescrever as configurações padrão definidas em `app/config.py`.
 
     Exemplo de `.env.example`:
     ```env
@@ -67,10 +67,10 @@ No projeto original, os documentos markdown estavam em `/home/ubuntu/chatbot_pro
     # API_PORT=8000
     # RELOAD_UVICORN=True
     ```
-    As configurações padrão em `app/config.py` já apontam para os diretórios dentro da estrutura do projeto (`/home/ubuntu/chatbot_project_mvc/data/vectorstore` e `/home/ubuntu/chatbot_project_mvc/models/qwen-2.5`). O `MARKDOWN_DOCS_PATH` está configurado para `/home/ubuntu/chatbot_project/docling_output` (do seu ZIP original).
+    As configurações padrão em `app/config.py` já apontam para os diretórios dentro da estrutura do projeto (`/home/ubuntu/ChatBot-HHI/data/vectorstore` e `/home/ubuntu/ChatBot-HHI/models/qwen-2.5`). O `MARKDOWN_DOCS_PATH` está configurado para `/home/ubuntu/chatbot_project/docling_output` (do seu ZIP original).
 
 2.  **Instalar Dependências:**
-    Navegue até o diretório `chatbot_project_mvc/` e instale as dependências:
+    Navegue até o diretório `ChatBot-HHI/` e instale as dependências:
     ```bash
     pip install -r requirements.txt
     ```
@@ -81,18 +81,18 @@ No projeto original, os documentos markdown estavam em `/home/ubuntu/chatbot_pro
     Certifique-se de que os documentos Markdown que você deseja que o chatbot use como base de conhecimento estejam no diretório especificado por `MARKDOWN_DOCS_PATH` em `app/config.py` (ou no seu `.env`). No seu caso, o padrão é `/home/ubuntu/chatbot_project/docling_output`.
 
 2.  **Iniciar a Aplicação:**
-    No diretório `chatbot_project_mvc/`, execute o `main.py` que está dentro da pasta `app`:
+    No diretório `ChatBot-HHI/`, execute o `main.py` que está dentro da pasta `app`:
     ```bash
     python -m app.main
     ```
-    Ou, se você estiver no diretório `chatbot_project_mvc/app/`:
+    Ou, se você estiver no diretório `ChatBot-HHI/app/`:
     ```bash
     python main.py
     ```
 
     A aplicação FastAPI será iniciada. Durante a inicialização:
-    *   O modelo LLM (Qwen2.5-1.5B) será baixado para `chatbot_project_mvc/models/qwen-2.5` se ainda não existir.
-    *   O índice vetorial (vector store) será construído a partir dos documentos em `MARKDOWN_DOCS_PATH` e salvo em `chatbot_project_mvc/data/vectorstore/` se ainda não existir. Se já existir, será carregado.
+    *   O modelo LLM (Qwen2.5-1.5B) será baixado para `ChatBot-HHI/models/qwen-2.5` se ainda não existir.
+    *   O índice vetorial (vector store) será construído a partir dos documentos em `MARKDOWN_DOCS_PATH` e salvo em `ChatBot-HHI/data/vectorstore/` se ainda não existir. Se já existir, será carregado.
 
 3.  **Acessar a API:**
     *   **Saúde da API:** `http://localhost:8000/health` (ou o host/porta que você configurou)
