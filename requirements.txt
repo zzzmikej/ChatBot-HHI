@@ -30,3 +30,8 @@ bitsandbytes # For 8-bit quantization
 auto-gptq # For GPTQ quantization
 optimum # For ONNX and other optimizations
 cachetools # For caching
+
+# For SQL processing and generating SQL queries
+sqlglot
+glob
+typing
