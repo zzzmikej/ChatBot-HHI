@@ -1,22 +1,24 @@
 import uvicorn
 from fastapi import FastAPI, Depends
+import torch
 
 from config import settings
 from services.download_html import download_main
 from services.document_processor import convert_html_to_markdown
 from services.vector_service import build_or_load_vector_store
 from utils.model_loader import download_model
+from controllers.sql_controller import router as sql_router
 from utils.dependencies import get_chatbot_instance, init_dependencies
 from controllers.chatbot_controller import router as chatbot_router
 
 
 async def startup_event():
-    print("Starting up the application...")
-    print("Downloading html...")
-    download_main()
+    # print("Starting up the application...")
+    # print("Downloading html...")
+    # download_main()
 
-    print(f"Checking for HTML to Markdown conversion...")
-    convert_html_to_markdown(base_html_docs_path=settings.HTML_DOCS_PATH, output_base_path=settings.MARKDOWN_DOCS_PATH)
+    # print(f"Checking for HTML to Markdown conversion...")
+    # convert_html_to_markdown(base_html_docs_path=settings.HTML_DOCS_PATH, output_base_path=settings.MARKDOWN_DOCS_PATH)
 
     print(f"Building/Loading vector store from {settings.MARKDOWN_DOCS_PATH} to {settings.VECTOR_STORE_PATH}...")
     vector_index = build_or_load_vector_store(
@@ -28,7 +30,7 @@ async def startup_event():
     print(f"Ensuring LLM model ({settings.LLM_MODEL_NAME}) is available at {settings.MODEL_SAVE_PATH}...")
     download_model(model_name=settings.LLM_MODEL_NAME, save_path=settings.MODEL_SAVE_PATH)
     
-    print("Initializing application dependencies (ChatBot, QueryEngine)...")
+    print("Initializing application dependencies (ChatBot, QueryEngine, SQLProcessor)...")
     init_dependencies(vector_index=vector_index, app_settings=settings)
     print("Application startup complete.")
 
@@ -42,6 +44,7 @@ app = FastAPI(
 app.add_event_handler("startup", startup_event)
 
 app.include_router(chatbot_router, prefix="/api/v1", tags=["Chatbot"])
+app.include_router(sql_router, prefix="/api/v1", tags=["SQL"])
 
 @app.get("/health", tags=["Health"])
 async def health_check():
