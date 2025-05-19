@@ -10,7 +10,7 @@ class SQLValidationDetail(BaseModel):
 
 class SQLGenerateRequest(BaseModel):
     prompt: str
-    dialect: str = "sqlserver"  # Default to SQL Server as per user preference
+    dialect: str = "sqlserver"
     perform_semantic_validation: bool = True
 
 class SQLGenerateResponse(BaseModel):

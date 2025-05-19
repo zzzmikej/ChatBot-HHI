@@ -20,7 +20,7 @@ class LLMClient:
         self.chatbot = chatbot
         print(f"LLM Client Initialized with ChatBot model")
 
-    def generate_sql_from_prompt(self, prompt: str, dialect: str, db_schema_context: str | None = None) -> str:
+    def generate_sql_from_prompt(self, prompt: str, dialect: str, db_schema_context: Optional[str] = None) -> str:
         context_info = ""
         if db_schema_context:
             context_info = f"\nEsquema do banco de dados:\n{db_schema_context}\n\n"
@@ -48,8 +48,8 @@ class LLMClient:
                     sql_lines.append(line)
             
             return '\n'.join(sql_lines).strip()
-        
-    def alter_sql_from_prompt(self, original_sql: str, alter_prompt: str, dialect: str, db_schema_context: str | None = None) -> str:
+
+    def alter_sql_from_prompt(self, original_sql: str, alter_prompt: str, dialect: str, db_schema_context: Optional[str] = None) -> str:
         context_info = ""
         if db_schema_context:
             context_info = f"\nEsquema do banco de dados:\n{db_schema_context}\n\n"
