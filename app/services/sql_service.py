@@ -6,7 +6,7 @@ from typing import List, Tuple, Optional, Any
 
 _db_schema_cache = None
 
-def extract_schema_from_markdown(docs_base_dir: str, relevant_doc_paths: list[str] | None = None) -> dict:
+def extract_schema_from_markdown(docs_base_dir: str, relevant_doc_paths: Optional[list[str]] = None) -> dict:
     global _db_schema_cache
     if _db_schema_cache is not None:
         print("Retornando esquema de banco de dados em cache.")
