@@ -49,8 +49,7 @@ def extract_schema_from_markdown(docs_base_dir: str, relevant_doc_paths: Optiona
             for table_match in table_matches:
                 table_name = table_match.group(1)
                 table_desc = table_match.group(2) if table_match.group(2) else "Sem descrição disponível."
-                
-                # Inicializa a tabela no esquema
+
                 if table_name not in extracted_schema:
                     extracted_schema[table_name] = {
                         "columns": {},
@@ -58,21 +57,18 @@ def extract_schema_from_markdown(docs_base_dir: str, relevant_doc_paths: Optiona
                     }
                     current_table = table_name
                 
-                # Busca por definições de coluna após a definição da tabela
                 table_content_start = table_match.end()
                 next_table_match = re.search(table_pattern, content[table_content_start:])
                 table_content_end = table_content_start + next_table_match.start() if next_table_match else len(content)
                 table_content = content[table_content_start:table_content_end]
                 
-                # Extrai as colunas da tabela
                 column_matches = re.finditer(column_pattern, table_content)
                 for column_match in column_matches:
                     column_name = column_match.group(1)
                     column_type = column_match.group(2)
                     nullable = not (column_match.group(3) and column_match.group(3).lower() in ['sim', 'yes'])
                     pk = column_match.group(4) and column_match.group(4).lower() in ['sim', 'yes']
-                    
-                    # Adiciona a coluna ao esquema
+
                     extracted_schema[table_name]["columns"][column_name] = {
                         "type": column_type,
                         "nullable": nullable,
@@ -5980,7 +5976,7 @@ def _get_default_schema() -> dict:
     }
     return default_schema
 
-def validate_syntax_sqlglot(sql_script: str, dialect: str | None = None) -> tuple[bool, sqlglot.Expression | None, str | None]:
+def validate_syntax_sqlglot(sql_script: str, dialect: Optional[str] = None) -> Tuple[bool, Optional[sqlglot.Expression], Optional[str]]:
     try:
         parsed_expression = sqlglot.parse_one(sql_script, read=dialect)
         return True, parsed_expression, None
@@ -5989,7 +5985,7 @@ def validate_syntax_sqlglot(sql_script: str, dialect: str | None = None) -> tupl
     except Exception as e:
         return False, None, f"Ocorreu um erro inesperado durante a validação de sintaxe: {str(e)}"
 
-def validate_semantics(parsed_sql: sqlglot.Expression, db_schema: dict, dialect: str | None = None) -> tuple[bool, list[str]]:
+def validate_semantics(parsed_sql: sqlglot.Expression, db_schema: dict, dialect: Optional[str] = None) -> Tuple[bool, list[str]]:
     errors = []
     if not db_schema:
         errors.append("Esquema de banco de dados não disponível para validação semântica.")
@@ -6016,7 +6012,7 @@ def validate_semantics(parsed_sql: sqlglot.Expression, db_schema: dict, dialect:
                         errors.append(f"Erro Semântico: Coluna \"{col_expr.name}\" não encontrada na tabela \"{table_expr.name}\". Colunas disponíveis: {available_cols_str}")
     return not errors, errors
 
-def format_sql_sqlglot(sql_script: str, dialect: str | None = None, pretty: bool = True) -> str:
+def format_sql_sqlglot(sql_script: str, dialect: Optional[str] = None, pretty: bool = True) -> str:
     try:
         parsed = sqlglot.parse_one(sql_script, read=dialect)
         return parsed.sql(dialect=dialect, pretty=pretty)
