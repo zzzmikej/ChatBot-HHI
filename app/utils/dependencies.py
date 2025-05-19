@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from models.chatbot_model import ChatBot
 from models.query_engine_model import QueryEngine
+from models.sql_processor_model import SQLProcessor
 from config import settings
 from llama_index.core import VectorStoreIndex
 import torch
@@ -9,15 +10,17 @@ import torch
 _chatbot_instance: ChatBot | None = None
 _query_engine_instance: QueryEngine | None = None
 _vector_index_instance: VectorStoreIndex | None = None
+_sql_processor_instance: SQLProcessor | None = None
 
 def init_dependencies(vector_index: VectorStoreIndex, app_settings: type(settings)):
-    global _query_engine_instance, _chatbot_instance, _vector_index_instance
-    print("Initializing QueryEngine and ChatBot instances...")
+    global _query_engine_instance, _chatbot_instance, _vector_index_instance, _sql_processor_instance
+    print("Initializing QueryEngine, ChatBot, and SQLProcessor instances...")
 
     _vector_index_instance = vector_index
 
-    _query_engine_instance = QueryEngine(index=_vector_index_instance, llm=None)
+    _query_engine_instance = QueryEngine(index=_vector_index_instance, llm=None) # LLM for query engine can be configured if needed
     print("QueryEngine instance initialized.")
+
 
     torch_dtype = torch.float16
     if app_settings.MODEL_TORCH_DTYPE == "torch.float32":
@@ -34,6 +37,9 @@ def init_dependencies(vector_index: VectorStoreIndex, app_settings: type(setting
     )
     print("ChatBot instance initialized.")
 
+    _sql_processor_instance = SQLProcessor()
+    print("SQLProcessor instance initialized.")
+
 def get_chatbot() -> ChatBot:
     if _chatbot_instance is None:
         raise RuntimeError("ChatBot instance has not been initialized. Ensure startup event is configured and ran successfully.")
@@ -49,6 +55,11 @@ def get_vector_index() -> VectorStoreIndex:
         raise RuntimeError("VectorStoreIndex instance has not been initialized.")
     return _vector_index_instance
 
+def get_sql_processor() -> SQLProcessor:
+    """FastAPI dependency to get the initialized SQLProcessor instance."""
+    if _sql_processor_instance is None:
+        raise RuntimeError("SQLProcessor instance has not been initialized.")
+    return _sql_processor_instance
 
 def get_chatbot_instance():
     return _chatbot_instance
