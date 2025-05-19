@@ -25,10 +25,8 @@ def extract_schema_from_markdown(docs_base_dir: str, relevant_doc_paths: list[st
             if os.path.isfile(full_path) and full_path.endswith('.md'):
                 md_files.append(full_path)
             else:
-                # Se for um padrão, use glob
                 md_files.extend(glob.glob(os.path.join(docs_base_dir, path)))
     else:
-        # Busca recursiva por todos os arquivos .md
         md_files = glob.glob(os.path.join(docs_base_dir, '**', '*.md'), recursive=True)
     
     if not md_files:
@@ -37,7 +35,6 @@ def extract_schema_from_markdown(docs_base_dir: str, relevant_doc_paths: list[st
     
     extracted_schema = {}
     
-    # Padrões para identificar definições de tabela e coluna
     table_pattern = r'## Tabela[:\s]+([A-Za-z0-9_]+)(?:\s*\(([^)]*)\))?'
     column_pattern = r'\|\s*([A-Za-z0-9_]+)\s*\|\s*([A-Za-z0-9_\(\),]+)\s*\|\s*([Ss]im|[Nn]ão|[Yy]es|[Nn]o)?\s*\|\s*([Ss]im|[Nn]ão|[Yy]es|[Nn]o)?\s*\|'
     
@@ -46,7 +43,6 @@ def extract_schema_from_markdown(docs_base_dir: str, relevant_doc_paths: list[st
             with open(md_file, 'r', encoding='utf-8') as f:
                 content = f.read()
                 
-            # Busca por definições de tabela
             table_matches = re.finditer(table_pattern, content)
             current_table = None
             
