@@ -1,19 +1,19 @@
 import sqlglot
 from typing import List, Tuple, Optional, Any
-from app.services.sql_service import (
+from services.sql_service import (
     validate_syntax_sqlglot,
     validate_semantics,
     format_sql_sqlglot,
     extract_schema_from_markdown,
 )
-from app.views.schemas import (
+from views.schemas import (
     SQLGenerateRequest, SQLGenerateResponse,
     SQLAlterRequest, SQLAlterResponse,
     SQLValidateRequest, SQLValidateResponse,
     SQLValidationDetail
 )
-from app.config import settings
-from app.models.chatbot_model import ChatBot
+from config import settings
+from models.chatbot_model import ChatBot
 
 class LLMClient:
     def __init__(self, chatbot: ChatBot):
